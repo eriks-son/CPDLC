@@ -4,9 +4,10 @@ departure = 'KEWR'
 arrival = 'KBOS'
 
 attempt = requests.get(f'https://5n1v87j7va.execute-api.us-east-1.amazonaws.com/Prod/route?from={departure[1:]}&to={arrival[1:]}')
-route_list = attempt.json()['body']['routes']
-for index in range(len(route_list)):
-    print(f"Route {index + 1}:\n{route_list[index]['route']}")
+route_list = []
+for route in attempt.json()['body']['routes']:
+    if not route['pref']:
+        route_list.append(route)
 
 attempt = requests.get(f'https://datis.clowd.io/api/{departure}')
 atis = attempt.json()[0]['datis']
