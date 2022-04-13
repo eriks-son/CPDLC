@@ -1,16 +1,4 @@
-import pandas as pd
-import requests
 from string import ascii_letters as LETTERS, digits as DIGITS
-
-# List of ICAO type identifiers for different standard aircraft
-JETS = ["A319", "A320", "A318", "A321", "A20N", "A300", "A330", "A332", "A333", "A338", "A339", "A340", "A342", "A343",
-        "A345", "A346", "A350", "A359", "A35K", "A380", "A388", "B737", "B738", "B739", "B38M", "B39M", "B744", "B747",
-        "B748", "B752", "B753", "B762", "B763", "B764", "B772", "B773", "MD11", "E135", "E140", "E145", "E170", "E175",
-        "E190", "E195", "CRJ1", "CRJ2", "CRJ7", "CRJ9", "CRJX", "BCS1", "BCS2"]
-PROPS = ["C172", "C152", "C182", "C206", "C210", "PA42", "PA62", "BE35", "B350", "C208"]
-TURBOPROPS = ["DH8A", "DH8B", "DH8C", "DH8D", "TBM9", "PC12"]
-
-ZNYPRD = -100  # Arbitrary value for non FAA preferred routes
 
 
 class FlightPlan:
@@ -27,10 +15,6 @@ class FlightPlan:
         self.aircraft_type = aircraft_type
         self.route = route
         self.altitude = altitude
-        url = requests.get(f"https://nyartcc.org/prd/?from={self.departure}&to={self.arrival}")
-        table_s = pd.read_html(url.text)
-        self.table = table_s[0]
-        self.options = [0 for _ in range(len(self.table))]
 
     def __str__(self):
         """Print out each part of the flight plan on a line"""

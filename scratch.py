@@ -5,11 +5,13 @@ arrival = 'KBOS'
 
 attempt = requests.get(f'https://5n1v87j7va.execute-api.us-east-1.amazonaws.com/Prod/route?from={departure[1:]}&to={arrival[1:]}')
 route_list = []
-for route in attempt.json()['body']['routes']:
-    if not route['pref']:
-        route_list.append(route)
+print(attempt.json())
+# for route in attempt.json()['body']['routes']:
+    # if not route['pref']:
+        # route_list.append(route)
 
 attempt = requests.get(f'https://datis.clowd.io/api/{departure}')
+print(attempt.json())
 atis = attempt.json()[0]['datis']
 print(atis)
 before, middle, after = atis[14:].partition("DEP") # 14: is used so that ARR/DEP at the beginning of some ATISes are not caught
