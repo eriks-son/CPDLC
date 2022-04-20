@@ -5,5 +5,4 @@ def get_initial(dep_rwy: str):
         return "Maintain 2,500"
     elif dep_rwy == "29":
         return "Maintain 5,000"
-    else:
-        raise ValueError("Unknown operations at EWR. Possible error in .get_ops() or in datis API")
+    raise ValueError("Unknown operations at EWR. Possible error in .get_ops() or in datis API")

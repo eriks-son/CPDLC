@@ -1,6 +1,6 @@
-import requests
-import ewr
-import jfk
+import ops
+from airports import ewr, jfk, phl, lga
+
 AIRPORT_LIST = ["KEWR", "KJFK", "KLGA", "KPHL"]
 
 
@@ -12,10 +12,8 @@ class Airport:
         self.departure_procedure = None
         self.climb = None
         self.initial = None
-        self.dep_runway = ""
-        self.arr_runway = ""
         self.get_icao()
-        self.get_ops()
+        self.dep_runway, self.arr_runway = ops.get_ops(self.icao)
 
     def get_icao(self):
         while True:
@@ -27,27 +25,6 @@ class Airport:
             else:
                 break
 
-    def get_ops(self):
-        attempt = requests.get(f'https://datis.clowd.io/api/{self.icao}')
-        atis = attempt.json()[0]['datis']
-        # 14: is used so that ARR/DEP at the beginning of some ATISes are not caught
-        before, middle, after = atis[14:].partition("DEP")
-        found_digit = False
-        for x in range(len(before) - 1, 0, -1):
-            if before[x].isdigit():
-                found_digit = True
-                self.arr_runway = before[x] + self.arr_runway
-            elif found_digit:
-                break
-
-        found_digit = False
-        for x in after:
-            if x.isdigit():
-                found_digit = True
-                self.dep_runway += x
-            elif found_digit:
-                break
-
     def specific_airport(self):
         if self.icao == "KEWR":
             self.initial = ewr.get_initial(self.dep_runway)
@@ -56,3 +33,10 @@ class Airport:
         if self.icao == "KJFK":
             self.departure_procedure, self.climb = jfk.get_climb(self.dep_runway, self.category, self.route)
             self.initial = jfk.get_initial(self.climb)
+        if self.icao == "KPHL":
+            self.initial = phl.get_initial(self.category)
+            self.departure_procedure = "PHL2"
+            self.climb = "PHILADELPHIA TWO (PHL2)"
+        if self.icao == "LGA":
+            self.departure_procedure, self.climb = lga.get_climb(self.dep_runway, self.category, self.route, self.arr_runway)
+            self.initial = lga.get_initial(self.departure_procedure, self.climb)
