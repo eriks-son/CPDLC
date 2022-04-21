@@ -1,3 +1,17 @@
+EAST = ["GREKI", "MERIT", "BAYYS", "BDR"]
+WATER = ["BETTE", "HAPIE", "SHIPP", "WAVEY"]
+SOUTHWEST = ["RBV", "WHITE", "DIXIE"]
+NORTH = ["DEEZZ", "GAYEL", "HAAYS", "NEION", "COATE"]
+ALL = EAST + WATER + SOUTHWEST + NORTH
+
+DIGIT1 = 1
+DIGIT2 = (5, 6)
+DIGIT3 = (0, 7)
+DIGIT4 = (1, 7)
+
+DEP_FREQ = "135.900"
+
+
 def get_climb(dep_rwy: str, aircraft: str, route: str):
     if dep_rwy == "31":
         if "RBV" in route or "WHITE" in route or "DIXIE" in route:

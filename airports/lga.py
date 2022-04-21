@@ -1,5 +1,18 @@
 from ops import get_ops
 
+EAST = ["GREKI", "MERIT", "BAYYS", "BDR"]
+SOUTH = ["SHIPP", "WAVEY", "DIXIE", "WHITE"]
+NORTH = ["GAYEL", "HAAYS", "NEION", "COATE"]
+WEST = ["NEWEL", "ELIOT", "ZIMMZ", "PARKE", "LANNA", "LANNA"]
+ALL = EAST + SOUTH + NORTH + WEST
+
+DIGIT1 = 2
+DIGIT2 = (1, 1)
+DIGIT3 = (0, 6)
+DIGIT4 = (1, 7)
+
+DEP_FREQ = "120.400"
+
 
 def belmont():
     dep, arr = get_ops("KJFK")

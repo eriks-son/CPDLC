@@ -17,7 +17,7 @@ class AircraftType:
     def get_aircraft_type(self):
         while True:
             self.aircraft_type = input("Please enter your aircraft type: ")
-            if self.aircraft_type not in JETS and self.aircraft_type not in PROPS and self.aircraft_type not in TURBOPROPS:
+            if self.aircraft_type in JETS or self.aircraft_type in PROPS or self.aircraft_type in TURBOPROPS:
                 if self.aircraft_type in JETS:
                     self.category = "JET"
                     self.opposite = "PROP"

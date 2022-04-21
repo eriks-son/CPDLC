@@ -1,4 +1,4 @@
-import numpy
+import numpy as np
 import math
 import pickle
 
@@ -11,7 +11,7 @@ class Airport:
         self.name = name
 
     def __str__(self):
-        print(f'ICAO: {self.icao} ({name})\tLatitude: {self.latitude}\tLongitude: {self.longitude}')
+        print(f'ICAO: {self.icao} ({self.name})\tLatitude: {self.latitude}\tLongitude: {self.longitude}')
 
 
 class AirportDatabase:
@@ -37,10 +37,10 @@ class AirportDatabase:
         delta_lon = lon2 - lon1
         x = math.cos(math.radians(lat2)) * math.sin(math.radians(delta_lon))
         y = math.cos(math.radians(lat1)) * math.sin(math.radians(lat2)) - math.sin(math.radians(lat1)) * math.cos(math.radians(lat2)) * math.cos(math.radians(delta_lon))
-        track = numpy.arctan2(x, y)
-        return numpy.degrees(track)
+        track = np.degrees(np.arctan2(x, y))
+        return track
 
 
-with open('airport_database.dat', 'rb') as f:
-    database = pickle.load(f)
-print(database.get_airport_name("KPTW"))
+def get_database():
+    with open('airport_database.dat', 'rb') as f:
+        return pickle.load(f)
