@@ -1,20 +1,23 @@
 from ops import get_ops
 
+# Exit gates
 EAST = ["GREKI", "MERIT", "BAYYS", "BDR"]
 SOUTH = ["SHIPP", "WAVEY", "DIXIE", "WHITE"]
 NORTH = ["GAYEL", "HAAYS", "NEION", "COATE"]
 WEST = ["NEWEL", "ELIOT", "ZIMMZ", "PARKE", "LANNA", "LANNA"]
 ALL = EAST + SOUTH + NORTH + WEST
 
+# Squawk code range
 DIGIT1 = 2
 DIGIT2 = (1, 1)
 DIGIT3 = (0, 6)
 DIGIT4 = (1, 7)
 
-DEP_FREQ = "120.400"
+DEP_FREQ = "120.400"  # Departure procedure
 
 
 def belmont():
+    """Returns True if LGA owns the Belmont airspace, False otherwise"""
     dep, arr = get_ops("KJFK")
     if dep == "22" or arr == "22":
         return False
@@ -22,6 +25,7 @@ def belmont():
 
 
 def coney():
+    """Returns True if LGA owns the Coney airspace, False otherwise"""
     dep, arr = get_ops("KJFK")
     if dep == "31" or arr == "31" or dep == "13" or arr == "13":
         return False
@@ -29,6 +33,7 @@ def coney():
 
 
 def get_climb(ops, category, route, arr):
+    """Returns the DP and climb depending on the ops, aircraft type, route, and arrival runway"""
     lga7 = "LGA7"
     if ops == "4" or ops == "31":
         group1 = False
@@ -72,9 +77,7 @@ def get_climb(ops, category, route, arr):
 
 
 def get_initial(procedure, climb):
+    """Returns the initial altitude instructions based on the DP and climb"""
     if procedure == "LGA7" and "CONEY" not in climb:
         return "Maintain 5,000"
     return "*CLIMB VIA SID*, TOP ALTITUDE 5,000"
-
-
-

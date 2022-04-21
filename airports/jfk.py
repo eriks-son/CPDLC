@@ -1,18 +1,21 @@
+# Exit gates
 EAST = ["GREKI", "MERIT", "BAYYS", "BDR"]
 WATER = ["BETTE", "HAPIE", "SHIPP", "WAVEY"]
 SOUTHWEST = ["RBV", "WHITE", "DIXIE"]
-NORTH = ["DEEZZ", "GAYEL", "HAAYS", "NEION", "COATE"]
+NORTH = ["GAYEL", "HAAYS", "NEION", "COATE"]
 ALL = EAST + WATER + SOUTHWEST + NORTH
 
+# Squawk code range
 DIGIT1 = 1
 DIGIT2 = (5, 6)
 DIGIT3 = (0, 7)
 DIGIT4 = (1, 7)
 
-DEP_FREQ = "135.900"
+DEP_FREQ = "135.900"  # Departure frequency
 
 
 def get_climb(dep_rwy: str, aircraft: str, route: str):
+    """Get the specific DP and climb depending on ops, aircraft type, and route"""
     if dep_rwy == "31":
         if "RBV" in route or "WHITE" in route or "DIXIE" in route:
             return "SKORR4", "SKORR FOUR (SKORR4), RNGRR TRANSITION"
@@ -40,6 +43,7 @@ def get_climb(dep_rwy: str, aircraft: str, route: str):
 
 
 def get_initial(climb: str):
+    """Gets initial altitude instructions depending on departure procedure and climb"""
     if "SKORR" in climb:
         return "*Climb via SID*, TOP ALTITUDE 5,000"
     if "IDLEWILD" in climb:

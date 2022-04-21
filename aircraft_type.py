@@ -15,6 +15,10 @@ class AircraftType:
         self.turbo = False
 
     def get_aircraft_type(self):
+        """
+        Prompts the user for an aircraft type. Checks if it is in the hardcoded list
+        If it's not in the list, the user can use it as a custom type and is prompted for the category of aircraft
+        """
         while True:
             self.aircraft_type = input("Please enter your aircraft type: ")
             if self.aircraft_type in JETS or self.aircraft_type in PROPS or self.aircraft_type in TURBOPROPS:

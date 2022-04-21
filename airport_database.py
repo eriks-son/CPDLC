@@ -3,7 +3,7 @@ import math
 import pickle
 
 
-class Airport:
+class Airport:  # Not used. Was only used to create the database
     def __init__(self, icao: str, latitude: float, longitude: float, name: str):
         self.icao = icao
         self.latitude = latitude
@@ -19,20 +19,21 @@ class AirportDatabase:
         self.database = {}
 
     def add_airport(self, icao: str, latitude: float, longitude: float, name: str):
+        """Not used by the program. Was only used to create the database"""
         self.database[icao] = Airport(icao, latitude, longitude, name)
 
     def get_lat_and_long(self, icao: str):
+        """Returns the latitude and longitude of an airport"""
         return self.database[icao].latitude, self.database[icao].longitude
 
-    def get_airport_name(self, icao: str):
-        return self.database[icao].name
-
     def is_in_list(self, icao: str):
+        """Checks if an airport is in the database (airport_database.dat)"""
         if icao in self.database:
             return True
         return False
 
     def get_track(self, departure: str, arrival: str):
+        """Finds the track (angle) between the departure and arrival airports"""
         lat1, lat2, lon1, lon2 = self.database[departure].latitude, self.database[arrival].latitude, self.database[departure].longitude, self.database[arrival].longitude
         delta_lon = lon2 - lon1
         x = math.cos(math.radians(lat2)) * math.sin(math.radians(delta_lon))
@@ -42,5 +43,6 @@ class AirportDatabase:
 
 
 def get_database():
+    """Loads the database from the .dat file which holds most world airports"""
     with open('airport_database.dat', 'rb') as f:
         return pickle.load(f)

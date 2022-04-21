@@ -4,7 +4,7 @@ from altitude import Altitude
 from airport import Airport
 from aircraft_type import AircraftType
 
-IGNORE = -100  # Ignore all routes with this (easier than popping from the dict since dicts are not hashable inside of dicts)
+IGNORE = -100  # Ignore all routes with this (easier than popping from the dict since dicts are not hashable inside dicts)
 
 
 # noinspection PyTypeChecker
@@ -25,12 +25,15 @@ class Route:
                 self.options.append(0)
 
     def __str__(self):
-        """Returns just the route (the rest is only for PRD purposes)"""
-        if type(self.route) is str:
+        """Returns just the route. If the route is user-inputted, just return the string, otherwise return the route index of the PRD route"""
+        if type(self.route) is str:  # If the PRD isn't chosen
             return self.route
-        return self.route['route']
+        return self.route['route']  # Otherwise, there is a PRD route
 
     def get_route(self):
+        """
+        Get the user inputted route, then check if a valid exit gate is in the route
+        """
         while True:
             route = input("Please enter your entire route: ")
             gates = self.departure.get_exit_gates()
@@ -101,9 +104,7 @@ class Route:
     def check_specific_col(self, col: str, aircraft_type: AircraftType):
         """Checks the specified column for aircraft type
         col: the key for the column of the prd. Used for both area and aircraft columns
-        category: aircraft category ("JET" or "PROP")
-        opposite: opposite category of category
-        turbo: True if the aircraft is a turboprop, False if else
+        aircraft_type: used for both the category, opposite and turbo parameters
         """
         for index, route in enumerate(self.prd):
             if self.options[index] <= IGNORE:  # Skip all ignored routes
@@ -137,6 +138,7 @@ class Route:
                 self.options[index] = IGNORE
 
     def get_prd_route(self, altitude: Altitude, aircraft_type: AircraftType):
+        """Uses the above functions to find the best PRD route. Then it replaces the user's route with the PRD route"""
         self.check_altitude_col(altitude, aircraft_type)
         self.check_specific_col('area', aircraft_type)
         self.check_specific_col('aircraft', aircraft_type)
@@ -144,7 +146,8 @@ class Route:
             self.route = self.prd[self.options.index(max(self.options))]
 
     def check_altitude(self, altitude: Altitude):
-        if type(self.route) is str:
+        """Checks if the PRD route has a mandatory altitude"""
+        if type(self.route) is str:  # If the route is user inputted, there is no altitude requirement
             return altitude.alt
 
         if '0' not in self.route['alt']:  # Makes sure there is an altitude value
@@ -160,33 +163,38 @@ class Route:
             else:
                 return altitude.alt
 
-        elif '<' in self.route['alt'] or "MAX" in self.route['alt'] or "BELOW" in self.route['alt'] or "AOB" in self.route['self']:  # Checks if there is a max altitude
+        elif '<' in self.route['alt'] or "MAX" in self.route['alt'] or "BELOW" in self.route['alt'] or "AOB" in self.route['alt']:  # Checks if there is a max altitude
             route_altitude = ''.join(char for char in self.route['alt'] if char in DIGITS)
             if int(altitude) > int(route_altitude):
+                if len(route_altitude) > 3:
+                    return '0' + route_altitude[:2]
                 return route_altitude
             else:
                 return altitude.alt
 
-        elif '>' in self.route['alt'] or "MIN" in self.route['alt'] or "ABOVE" in self.route['alt'] or "AOA" in self.route['self']:  # Checks if there is a min altitude
+        elif '>' in self.route['alt'] or "MIN" in self.route['alt'] or "ABOVE" in self.route['alt'] or "AOA" in self.route['alt']:  # Checks if there is a min altitude
             route_altitude = ''.join(char for char in self.route['alt'] if char in DIGITS)
             if int(altitude) < int(route_altitude):
+                if len(route_altitude) > 3:
+                    return '0' + route_altitude[:2]
                 return route_altitude
             else:
                 return altitude.alt
 
         else:  # Catches exact altitudes
             route_altitude = ''.join(char for char in self.route['alt'] if char in DIGITS)
+            if len(route_altitude) > 3:
+                return '0' + route_altitude[:2]
             return route_altitude
 
     def check_dep_proc(self, departure: Airport):
-        split_route = str(self).split()
-        for index, point in enumerate(split_route):
-            if point in departure.get_exit_gates():
-                exit_gate = index
+        """Adds the departure airport's departure procedure to the beginning of the route"""
+        for gate in departure.get_exit_gates():
+            if gate in str(self):  # This will always trigger at least once because the route must already have an exit gate
+                disregard, exit_gate, rest = str(self).partition(gate)
                 break
-        route = " ".join(split_route[index] for index in range(exit_gate, len(split_route)))
-        route = f"{departure.departure_procedure} {route}"
-        if type(self.route) is str:
+        route = f"{departure.departure_procedure} {exit_gate}{rest}"
+        if type(self.route) is str:  # If it's user inputted
             self.route = route
-        else:
+        else:  # If it's a preferred route
             self.route['route'] = route

@@ -6,6 +6,9 @@ class Altitude:
         self.alt = None
 
     def get_altitude(self):
+        """
+        Gets the input from the user for the altitude. Checks that it's 3 digits and in increments of 1,000'. It also checks RVSM altitude requirements
+        """
         while True:
             altitude = input("Please enter your cruise altitude in hundreds of feet (for example 4,000 is 040): ")
             if len(altitude) != 3:
@@ -25,6 +28,7 @@ class Altitude:
                 print("The altitude is not a valid altitude. Please enter only 3 digits")
 
     def check_altitude(self, departure: str, arrival: str):
+        """Checks the altitude for direction of flight. If it's eastbound, it should be an odd altitude, if it's west, it should be even (except for above FL410)"""
         database = airport_database.get_database()
         if -90 < database.get_track(departure, arrival) <= 90:  # This contains all East tracks (0 degrees is Due East)
             if int(self.alt) <= 410:
@@ -43,6 +47,7 @@ class Altitude:
         return int(self.alt)
 
     def __str__(self):
+        """Returns the correct formatting based on the altitude (above or below 18,000')"""
         if int(self) >= 180:
             return f'FL{self.alt}'
         if self.alt[0] == '0':

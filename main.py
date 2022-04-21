@@ -9,19 +9,10 @@ from altitude import Altitude
 DATABASE = get_database()
 
 
-def get_departure():
-    supported = ["KEWR", "KJFK", "KLGA", "KPHL"]
-    while True:
-        print(f"Here are the currently supported airports: {supported}")
-        departure = input("Please enter your departure airport's code (ICAO): ")
-        if departure in supported:
-            return departure
-        if departure == "0":
-            raise Exception("Unsupported departure airport. User requested to exit")
-        print(f"{departure} is not a supported departure airport. Please type a supported airport or type in 0 to exit")
-
-
 def get_arrival():
+    """
+    Prompts the user for their arrival airport and checks if it is in the airport database (.dat file)
+    """
     while True:
         arrival = input("Please enter your arrival airport's code (ICAO): ")
         if DATABASE.is_in_list(arrival):
@@ -33,7 +24,7 @@ def get_arrival():
 
 
 def main():
-    callsign = input("Please enter your callsign (in ICAO form): ")
+    callsign = input("Please enter your callsign (in ICAO form): ")  # No data validation necessary (it's just a callsign)
     aircraft_type = AircraftType()
     aircraft_type.get_aircraft_type()
     departure = Airport()

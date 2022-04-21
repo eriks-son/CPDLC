@@ -3,6 +3,13 @@ from selenium import webdriver
 import time
 
 
+# THIS IS UNUSED IN THE PROJECT
+# IT OPENS A CHROME WINDOW THEN FINDS THE TRACK BETWEEN THE AIRPORTS
+# THIS WAS VERY INEFFICIENT AND INCONSISTENT
+# THE airport_database.dat IS MUCH QUICKER AND WORKS FOR ALL MAJOR AIRPORTS ALL AROUND THE WORLD
+# IT ONLY LACKS SMALL AIRPORTS THAT WILL NOT HAVE PREFERRED ROUTES ANYWAYS
+
+
 def get_track(departure: str, arrival: str):
     browser = webdriver.Chrome()
     browser.get(f"https://skyvector.com/?ll=&fpl=%20{departure}%20undefined%20{arrival}")

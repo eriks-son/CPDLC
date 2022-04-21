@@ -2,6 +2,10 @@ import requests
 
 
 def get_ops(icao):
+    """
+    Uses the DATIS API to get the current airport operations at the airport
+    It ignores L and R because it does not matter at any of the airports
+    """
     attempt = requests.get(f'https://datis.clowd.io/api/{icao}')
     atis = attempt.json()[0]['datis']
     # 14: is used so that ARR/DEP at the beginning of some ATISes are not caught
