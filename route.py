@@ -3,7 +3,6 @@ from string import ascii_letters as LETTERS, digits as DIGITS
 from altitude import Altitude
 from airport import Airport
 from aircraft_type import AircraftType
-from airports import ewr, jfk, lga, phl
 
 IGNORE = -100  # Ignore all routes with this (easier than popping from the dict since dicts are not hashable inside of dicts)
 
