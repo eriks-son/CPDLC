@@ -36,7 +36,7 @@ class Route:
         """
         while True:
             route = input("Please enter your entire route: ")
-            gates = self.departure.get_exit_gates()
+            gates = self.departure.all_gates
             for gate in gates:
                 if gate in route:
                     self.route = route
@@ -189,7 +189,7 @@ class Route:
 
     def check_dep_proc(self, departure: Airport):
         """Adds the departure airport's departure procedure to the beginning of the route"""
-        for gate in departure.get_exit_gates():
+        for gate in departure.all_gates:
             if gate in str(self):  # This will always trigger at least once because the route must already have an exit gate
                 disregard, exit_gate, rest = str(self).partition(gate)
                 break

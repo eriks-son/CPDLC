@@ -25,4 +25,4 @@ class FlightPlan:
     def get_clearance(self):
         """Print out the clearance with 'standard formatting'"""
         print(
-            f"""\nPRE-DEPARTURE CLEARANCE START | {datetime.now(timezone.utc)} Z | CALLSIGN: {self.callsign} | AIRCRAFT: {self.aircraft_type}\nDEP: {self.departure.icao} | ARR: {self.arrival} | SQUAWK: {self.departure.get_squawk()} | FINAL ALT: {self.altitude}\nAPPROVED ROUTE: {self.route} | DEP FREQ: {self.departure.get_dep_freq()}\nALTITUDE RESTRICTIONS: {self.departure.initial} | DEPARTURE PROCEDURE: {self.departure.climb}""")
+            f"""\nPRE-DEPARTURE CLEARANCE START | {datetime.now(timezone.utc)} Z | CALLSIGN: {self.callsign} | AIRCRAFT: {self.aircraft_type}\nDEP: {self.departure.icao} | ARR: {self.arrival} | SQUAWK: {self.departure.get_squawk()} | FINAL ALT: {self.altitude}\nAPPROVED ROUTE: {self.route} | DEP FREQ: {self.departure.dep_freq}\nALTITUDE RESTRICTIONS: {self.departure.initial} | DEPARTURE PROCEDURE: {self.departure.climb}""")
