@@ -34,11 +34,11 @@ class AircraftType:
             else:
                 print("Your aircraft type is not recognized. Would you like to use a custom aircraft?")
                 custom = input("Enter 1 to use a custom aircraft or anything else to try a new type: ")
-                if custom != 1:
+                if custom != "1":
                     continue
                 print("Firstly is your aircraft a jet or a prop?")
                 is_jet = input("If your aircraft is a jet, enter 1. If it's not, enter anything else: ")
-                if is_jet:
+                if is_jet == "1":
                     self.category = "JET"
                     self.opposite = "PROP"
                     break
@@ -46,7 +46,7 @@ class AircraftType:
                 self.opposite = "JET"
                 print("Is your aircraft a turboprop or a regular piston aircraft?")
                 is_turbo = input("If your aircraft is a turboprop, enter 1. If not, enter anything else: ")
-                if is_turbo:
+                if is_turbo == "1":
                     self.turbo = True
                 break
 
